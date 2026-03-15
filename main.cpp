@@ -1,24 +1,21 @@
 // 3d renderer attempt
-// ansh - started this at like 1am so some of it makes no sense
-// TODO: clean this up
-
 #include <stdio.h>
 #include <math.h>
 #include <unistd.h>
 
-// idk what size to make these
+// size to make these
 #define W 80
 #define H 40
 
-// tried making a vec3 struct but just using separate floats for now
+// tried making a vec3 struct but just using separate floats
 float camx = 0, camy = 0, camz = -3;
 
-// sdf for a sphere - copied the formula from wikipedia and it works somehow
+// sdf for a sphere
 float sphere(float px, float py, float pz, float r) {
     return sqrt(px*px + py*py + pz*pz) - r;
 }
 
-// i think this is how you normalize a vector
+// normalize a vector
 void normalize(float* x, float* y, float* z) {
     float len = sqrt((*x)*(*x) + (*y)*(*y) + (*z)*(*z));
     // BUG: crashes if len is 0, fix later
@@ -27,10 +24,10 @@ void normalize(float* x, float* y, float* z) {
     *z = *z / len;
 }
 
-// scene function - only one sphere for now
+// scene function 
 float scene(float x, float y, float z) {
     return sphere(x, y, z, 1.0);
-    // wanted to add a torus but couldnt figure out the formula
+    // torus but couldnt figure out the formula
 }
 
 float raymarch(float rox, float roy, float roz, float rdx, float rdy, float rdz) {
@@ -43,7 +40,7 @@ float raymarch(float rox, float roy, float roz, float rdx, float rdy, float rdz)
         float s = scene(px, py, pz);
         if(s < 0.01) {
             // hit something, return distance
-            // TODO: do proper lighting here, just returning d for now
+            // do proper lighting here, just returning d for now
             return d;
         }
         d = d + s;
@@ -52,13 +49,12 @@ float raymarch(float rox, float roy, float roz, float rdx, float rdy, float rdz)
     return -1; // no hit
 }
 
-// ascii brightness thing i found online
+// ascii brightness 
 char brightness(float d, float maxd) {
     if(d < 0) return ' ';
     float t = 1.0 - (d / maxd); // closer = brighter
     if(t < 0) t = 0;
     if(t > 1) t = 1;
-    // probably a better way to do this
     char* chars = " .:-=+*#%@";
     return chars[(int)(t * 9)];
 }
