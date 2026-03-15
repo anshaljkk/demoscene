@@ -1,8 +1,6 @@
 # demoscene
 
-trying to make a 3d renderer in c++. got it working but its really slow and the math is probably wrong in some places
-
-it renders to the terminal using ascii characters. looks cool i think
+made a 3d renderer in c++. got it working
 
 ## how to run
 
